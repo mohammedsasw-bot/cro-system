@@ -25,9 +25,9 @@
       --border: #ebd6bd;              /* لون الحدود الهادئة */
       
       /* حالات تدفق الطلب */
-      --success: #6e8a68;              /* مطابق / مقبول */
-      --warning: #d4a373;              /* مقبول جزئياً */
-      --danger: #b6543f;               /* نقص / مشاكل */
+      --success: #6e8a68;             /* مطابق / مقبول */
+      --warning: #d4a373;             /* مقبول جزئياً */
+      --danger: #b6543f;              /* نقص / مشاكل */
     }
 
     * {
@@ -48,21 +48,6 @@
       overflow-x: hidden;
     }
 
-    /* ===== شريط التنبيه عند تصفح الجوال ===== */
-    .mobile-notice-banner {
-      display: none; /* مخفي في الشاشات الكبيرة */
-      background-color: var(--brand-purple-dark);
-      color: var(--brand-beige);
-      border-bottom: 2px solid var(--brand-beige);
-      width: 100%;
-      padding: 12px 20px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
-      z-index: 9999;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
     /* ===== حاوية العرض التقديمي (16:9) ===== */
     .deck-container {
       width: 1280px;
@@ -76,6 +61,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transform-origin: center center;
+      transition: transform 0.2s ease;
     }
 
     /* زخرفة الخلفية للشرائح */
@@ -213,6 +200,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      user-select: none;
     }
 
     .nav-btn:hover:not(:disabled) {
@@ -250,6 +238,10 @@
       color: var(--text-muted);
       font-family: 'IBM Plex Mono', monospace;
     }
+
+    /* ========================================================= */
+    /* =================== تصاميم الشرائح الخاصة ================ */
+    /* ========================================================= */
 
     /* 1. الشريحة الأولى: الغلاف */
     .slide-cover {
@@ -348,7 +340,7 @@
       color: var(--brand-beige);
     }
 
-    /* 3. شريحة مخطط تدفق الطلب التفاعلي */
+    /* 3. شريحة مخطط تدفق الطلب التفاعلي (Diagram 1) */
     .lane-grid {
       display: grid;
       grid-template-columns: 120px 1fr;
@@ -388,6 +380,7 @@
 
     .lane-grid > div:nth-last-child(-n+2) { border-bottom: none; }
 
+    /* Lane classes with low opacity */
     .lane-row.branch { background: rgba(110, 138, 104, 0.03); }
     .lane-row.factory { background: rgba(220, 191, 161, 0.03); }
     .lane-row.courier { background: rgba(182, 84, 63, 0.03); }
@@ -421,7 +414,6 @@
       color: var(--brand-purple);
       font-size: 14px;
       font-weight: 700;
-      transition: transform 0.2s ease;
     }
 
     .branch-split {
@@ -435,7 +427,7 @@
       color: var(--text-muted);
     }
 
-    /* 4. شريحة الأدوار والصلاحيات الأربعة */
+    /* 4. شريحة الأدوار والصلاحيات الأربعة (Diagram 2) */
     .roles-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -513,7 +505,7 @@
       font-weight: 600;
     }
 
-    /* 5. شريحة آلية ربط الفروع بالمعامل */
+    /* 5. شريحة آلية ربط الفروع بالمعامل (Diagram 3) */
     .map-wrap {
       display: flex;
       gap: 15px;
@@ -597,7 +589,7 @@
       border-radius: 2px;
     }
 
-    /* 6. شريحة دورة حياة حالة الطلب */
+    /* 6. شريحة دورة حياة حالة الطلب (Diagram 4) */
     .status-track {
       display: flex;
       align-items: flex-start;
@@ -763,300 +755,80 @@
     .g-box .title-g { color: var(--success); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
     .g-box .desc-g { font-size: 12px; color: var(--text-main); line-height: 1.6; font-weight: 500; }
 
-    /* 8. شريحة خطة العمل والمراحل الزمنية */
-    .timeline-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-top: 15px;
-    }
-    .timeline-phase {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      position: relative;
-    }
-    .timeline-phase .phase-num {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      font-weight: bold;
-      color: var(--brand-beige);
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-    .timeline-phase h4 {
-      font-size: 16px;
-      color: var(--brand-purple-dark);
-      margin-bottom: 10px;
-    }
-    .timeline-phase ul {
-      list-style: none;
-      font-size: 12px;
-      color: var(--text-muted);
+    /* ===== نافذة التنبيه المخصصة ===== */
+    .alert-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      align-items: center;
+      justify-content: center;
     }
-    .timeline-phase ul li::before {
-      content: '✔';
-      color: var(--success);
-      margin-left: 5px;
+    .alert-box {
+      background: var(--brand-cream);
+      border: 2px solid var(--brand-beige);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      color: var(--text-main);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-
-    /* 9. شريحة الدعم الفني واستدامة النظام */
-    .support-wrapper {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 25px;
-      margin-top: 15px;
-    }
-    .support-feature {
-      background: white;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      padding: 24px;
-    }
-    .support-feature h4 {
-      font-size: 18px;
+    .alert-box h3 {
+      font-size: 22px;
       color: var(--brand-purple-dark);
       margin-bottom: 12px;
     }
-    .support-item {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-    .support-item i {
-      color: var(--brand-purple);
-      font-size: 18px;
-      margin-top: 3px;
-    }
-    .support-item-text h5 {
-      font-size: 14px;
-      color: var(--text-main);
-    }
-    .support-item-text p {
-      font-size: 12.5px;
+    .alert-box p {
+      font-size: 15px;
       color: var(--text-muted);
-      margin-top: 3px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .alert-box button {
+      background: var(--brand-purple);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
+    }
+    .alert-box button:hover {
+      background: var(--brand-purple-dark);
     }
 
-
-    /* ========================================================= */
-    /* ===== ملاءمة العرض مع الجوال والشاشات الصغيرة (Responsive) ===== */
-    /* ========================================================= */
-    @media (max-width: 1280px) {
-      .deck-container {
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        border: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      /* تفعيل التمرير العمودي الكامل والحر لمستخدمي الهواتف الذكية */
+    /* ===== استعلامات الجوال والتجاوب الذكي ===== */
+    @media (max-width: 1320px) {
       body {
-        overflow-y: auto !important;
-        height: auto !important;
-        justify-content: flex-start;
-      }
-
-      /* إظهار رسالة التنبيه في أعلى الشاشة بالجوال فقط */
-      .mobile-notice-banner {
-        display: block;
-      }
-
-      .deck-container {
-        width: 100vw;
-        height: auto !important;
-        min-height: 100vh;
-        border-radius: 0;
-        box-shadow: none;
-        overflow-y: visible !important;
-      }
-
-      .slide-header {
-        padding: 16px 20px;
-      }
-      .slide-header .brand-logo img {
-        height: 32px;
-      }
-      .slide-header .brand-logo .brand-name {
-        font-size: 15px;
-      }
-      
-      .slide-body {
-        padding: 24px 20px 100px; /* زيادة الهامش السفلي حتى لا يغطي الفوتر النصوص */
-        overflow-y: visible !important;
-        height: auto !important;
-      }
-      
-      .slide-title-area {
-        margin-bottom: 15px;
-        padding-right: 10px;
-      }
-      .slide-title-area h2 {
-        font-size: 20px;
-      }
-      .slide-title-area p.desc {
-        font-size: 12px;
-      }
-      
-      /* تثبيت شريط التنقل في أسفل شاشة الجوال بشكل دائم */
-      .slide-footer {
-        padding: 12px 20px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-        background: rgba(249, 246, 240, 0.95);
-      }
-      .nav-btn {
-        padding: 8px 16px;
-        font-size: 13px;
-      }
-      .dot {
-        width: 8px;
-        height: 8px;
-      }
-
-      /* شريحة الغلاف بالجوال */
-      .slide-cover h1 {
-        font-size: 28px;
-      }
-      .slide-cover .subtitle {
-        font-size: 15px;
-      }
-      .slide-cover .logo-container img {
-        max-height: 100px;
-      }
-
-      /* شريحة الرؤية والتحول */
-      .vision-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .vision-card {
-        padding: 15px;
-      }
-      .vision-card h3 {
-        font-size: 16px;
-      }
-      .vision-card ul li {
-        font-size: 13px;
-      }
-
-      /* شريحة مخطط تدفق الطلب التفاعلي - تحويل التدفق ليكون طولي */
-      .lane-grid {
-        grid-template-columns: 1fr;
-      }
-      .lane-label {
         padding: 10px;
-        border-bottom: 1px solid rgba(220,191,161,0.4);
       }
-      .lane-row {
-        padding: 12px 10px;
-        justify-content: center;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .node {
-        width: 100%;
-        max-width: 100%;
-      }
-      
-      /* إصلاح اتجاه الأسهم في الجوال: تدوير السهم ليتجه لأسفل بدلاً من اليمين واليسار */
-      .arrow {
-        transform: rotate(-90deg) !important; 
-        margin: 4px 0;
-        display: inline-block;
-      }
-      .branch-split {
-        width: 100%;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      /* شريحة الأدوار والصلاحيات */
-      .roles-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .role-card {
-        padding: 15px;
-      }
-      .role-head h3 {
-        font-size: 16px;
-      }
-
-      /* شريحة آلية ربط الفروع بالمعامل */
-      .map-wrap {
-        flex-direction: column;
-        padding: 15px;
-        gap: 10px;
-      }
-      .map-col.center-col {
-        padding: 5px 0;
-      }
-      .center-label {
-        writing-mode: horizontal-tb;
-        letter-spacing: 0;
-        font-size: 12px;
-      }
-      .legend {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      /* شريحة دورة حياة تتبع الحالات */
-      .status-track {
-        padding: 15px 10px;
-      }
-
-      /* شريحة العرض المالي والجدول */
-      .pricing-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .pricing-table-card {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .pricing-table th, .pricing-table td {
-        padding: 8px 12px;
-        font-size: 12px;
-        white-space: nowrap;
-      }
-      
-      /* شريحة خطة العمل والمراحل */
-      .timeline-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      
-      /* شريحة الدعم الفني والمستندات */
-      .support-wrapper {
-        grid-template-columns: 1fr;
-        gap: 15px;
+      .deck-container {
+        /* ميزة تحجيم الحاوية تلقائياً لتناسب شاشات الجوال */
+        transform: scale(calc(window.innerWidth / 1320)); 
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="mobile-notice-banner">
-    💡 للحصول على تجربة عرض تفاعلية وتصفح مثالي، يُفضّل تصفح هذا الموقع عبر جهاز الكمبيوتر.
+  <div class="alert-overlay" id="welcome-alert">
+    <div class="alert-box">
+      <h3>💡 تصفح العرض التقديمي</h3>
+      <p>يمكنك التنقل بين الشرائح بكل مرونة عبر الأزرار بالأسفل، أو باستخدام الأسهم ولوحة المفاتيح، أو بالسحب (Swipe) يميناً ويساراً على شاشات الجوال.</p>
+      <button onclick="closeAlert()">ابدأ العرض</button>
+    </div>
   </div>
 
-  <div class="deck-container">
+  <div class="deck-container" id="main-deck">
     
     <div class="slide-header" id="common-header" style="display: none;">
       <div class="brand-logo">
-        <img src="logo.png" alt="CRO System" onerror="this.style.opacity='0.5';">
+        <img src="شعارات-03.png" alt="الشعار">
         <span class="brand-name">CRO System</span>
       </div>
       <div class="slide-indicator" id="slide-indicator">الشريحة 1 من 9</div>
@@ -1065,7 +837,7 @@
     <div class="slide active" id="slide-1">
       <div class="slide-cover">
         <div class="logo-container">
-          <img src="logo.png" alt="CRO System" onerror="this.style.opacity='0.5';">
+          <img src="شعارات-03.png" alt="الشعار">
         </div>
         <h1>مشروع التحول التقني لـ CRO</h1>
         <div class="subtitle">رؤية حوكمة الإنتاج والتوصيل الذكي وتأسيس البنية التقنية للمعامل</div>
@@ -1174,7 +946,7 @@
               <h3>المعمل (الشيف)</h3>
             </div>
             <ul class="role-list">
-              <li>استقبل طلبات الفروع المربوطة.</li>
+              <li>استقبال طلبات الفروع المربوطة.</li>
               <li>الموافقة، الرفض وتعديل الكميات.</li>
               <li>إسناد الطلبات الجاهزة للمناديب.</li>
               <li>إشعار الإدارة بالتجهيز والجاهزية.</li>
@@ -1275,25 +1047,30 @@
           <div class="status-conn"></div>
           <div class="status-step">
             <div class="status-node"><span class="snum">05</span>جاهز للتوصيل</div>
-            <div class="status-owner">المعمل</div>
+            <div class="status-owner">الشيف</div>
           </div>
           <div class="status-conn"></div>
           <div class="status-step">
-            <div class="status-node"><span class="snum">06</span>جاري التوصيل</div>
+            <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">06</span>استلام المندوب</div>
+            <div class="status-owner">المندوب</div>
+          </div>
+          <div class="status-conn"></div>
+          <div class="status-step">
+            <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">07</span>جاري التوصيل</div>
             <div class="status-owner">المندوب</div>
           </div>
           <div class="status-conn"></div>
           <div class="status-step">
             <div class="status-fork">
-              <div class="fork-node ok"><span class="snum">07A</span>تم الاستلام بالكامل</div>
-              <div class="fork-node alert"><span class="snum">07B</span>مستلم مع وجود نقص</div>
+              <div class="fork-node ok"><span class="snum">08A</span>تم التسليم</div>
+              <div class="fork-node alert"><span class="snum">08B</span>تسليم بنقص</div>
             </div>
-            <div class="status-owner">الفرع والمندوب</div>
+            <div class="status-owner">الفرع</div>
           </div>
           <div class="status-conn dashed"></div>
           <div class="status-step">
-            <div class="status-node alert" style="color: var(--danger);"><span class="snum">08</span>مغلق / مراجعة الإدارة</div>
-            <div class="status-owner">لوحة التحكم</div>
+            <div class="status-node" style="background: rgba(112, 83, 112, 0.15); border-color: var(--brand-purple-light);"><span class="snum">09</span>مغلق ومحفوظ</div>
+            <div class="status-owner">آلي / الإدارة</div>
           </div>
         </div>
       </div>
@@ -1302,53 +1079,21 @@
     <div class="slide" id="slide-7">
       <div class="slide-body">
         <div class="slide-title-area">
-          <h2>6. العرض المالي ونموذج التسعير المرن</h2>
-          <p class="desc">بناء الشراكة والمنفعة المتبادلة وتأكيد جودة الخدمة قبل الالتزام المالي الطويل.</p>
+          <h2>6. الابتكار في الإشعارات والربط الخارجي</h2>
+          <p class="desc">كيف تغلبنا على عوائق تطبيقات الويب وتوفير أقصى انسيابية تشغيلية للمناديب والكافيهات.</p>
         </div>
-        <div class="pricing-grid">
-          <div class="pricing-table-card">
-            <table class="pricing-table">
-              <thead>
-                <tr>
-                  <th>البند والبيان</th>
-                  <th>التكلفة المادية</th>
-                  <th>ملاحظات الدعم والترخيص</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>تأسيس واستضافة لوحة التحكم والإدارة</td>
-                  <td><span class="free-badge">مجاناً بالكامل</span></td>
-                  <td>شامل النطاق (Domain) والاستضافة السنوية الحرة.</td>
-                </tr>
-                <tr>
-                  <td>حسابات المعامل (الشيف) والفروع (الكافيهات)</td>
-                  <td><span class="free-badge">عدد غير محدود</span></td>
-                  <td>صلاحية إنشاء أي عدد من الفروع والمستخدمين مستقبلاً.</td>
-                </tr>
-                <tr>
-                  <td>اشتراك وحسابات المناديب والتوجيه</td>
-                  <td><strong>150 ريال</strong> <small>/ شهرياً لكل مندوب نشط</small></td>
-                  <td>يتم احتساب المندوب الفعلي المرتبط بالنظام فقط.</td>
-                </tr>
-                <tr>
-                  <td>فترة التجربة والضمان التشغيلي</td>
-                  <td><u>شهر كامل مجاناً</u></td>
-                  <td>تبدأ من تاريخ الإطلاق الفعلي والتسليم الميداني للفرع.</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="vision-grid" style="margin-top: 15px;">
+          <div class="vision-card">
+            <h3 style="color: var(--brand-purple);"><i class="fa-solid fa-bell"></i> إشعارات الويب الذكية (Web Push)</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.8;">
+              بدلاً من دفع مبالغ ضخمة لبناء تطبيقات جوال مستقلة، يعتمد النظام على تقنية Web Push المعتمدة مباشرة بالمتصفح لإرسال الإشعارات اللحظية للشيف فور إرسال الطلب، وللمندوب عند جاهزية الحلا للتوصيل، وللإدارة فور حدوث أي نقص تشغيلي.
+            </p>
           </div>
-          <div class="pricing-summary">
-            <div class="price-card">
-              <span class="lbl">التكلفة الإجمالية المقدرة للتأسيس</span>
-              <div class="val">0.00 ريال</div>
-              <div class="dur">ضمان مجاني لفترة التجربة والتهيئة الأولى</div>
-            </div>
-            <div class="g-box">
-              <div class="title-g">💡 التزامنا بالجودة والتشغيل:</div>
-              <div class="desc-g">هدفنا بناء نظام مستدام يدعم نمو مبيعات وتوريد CRO، لذلك فترة التجربة تضمن مطابقة النظام لاحتياجكم قبل دفع أي تكاليف تشغيلية للمناديب.</div>
-            </div>
+          <div class="vision-card">
+            <h3 style="color: var(--brand-purple);"><i class="fa-solid fa-map-location-dot"></i> آلية Claim والتوزيع للمناديب</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.8;">
+              يظهر الطلب "الجاهز للتوصيل" لجميع مناديب المعمل المعتمد جغرافياً، وأول مندوب يؤكد الاستلام يختفي الطلب من البقية لضمان السرعة ومنع ازدواجية الرحلات وتلافي الخطأ البشري تماماً.
+            </p>
           </div>
         </div>
       </div>
@@ -1357,102 +1102,90 @@
     <div class="slide" id="slide-8">
       <div class="slide-body">
         <div class="slide-title-area">
-          <h2>7. خطة العمل والمراحل الزمنية للتنفيذ</h2>
-          <p class="desc">تسلسل زمني محكم ومدروس لضمان جودة الأكواد والتسليم الآمن دون أي انقطاع في العمليات الحالية.</p>
+          <h2>7. العرض المالي والخدمات المشمولة بالتعاقد</h2>
+          <p class="desc">سعر تنافسي متكامل شامل تطوير المميزات الحالية، ضمان جودة التشغيل، والهدايا الرقمية الإضافية.</p>
         </div>
-        <div class="timeline-container">
-          <div class="timeline-phase" style="border-top: 4px solid var(--brand-purple);">
-            <div class="phase-num">Phase 01</div>
-            <h4>تجهيز البنية وتطوير لوحة التحكم</h4>
-            <ul>
-              <li>بناء قاعدة البيانات وهندسة العلاقات بين الحسابات.</li>
-              <li>تصميم وبرمجة واجهات لوحة الإدارة الكبرى لشاشات العرض.</li>
-              <li>تأسيس نظام حماية البيانات والتوثيق الآمن.</li>
-            </ul>
+        
+        <div class="pricing-grid">
+          <div class="pricing-table-card">
+            <table class="pricing-table">
+              <thead>
+                <tr>
+                  <th>البند والخدمة</th>
+                  <th>الحالة والتفاصيل</th>
+                  <th>التكلفة</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>تطوير نظام CRO المتكامل للأدوار الأربعة</strong></td>
+                  <td>يشمل الميزات الحالية والتعديلات المطلوبة <u>حتى ضمان أن المميزات تعمل وتؤدي وظائفها بشكل سليم وصحيح 100%</u>.</td>
+                  <td>3,500 ر.س</td>
+                </tr>
+                <tr>
+                  <td><strong>اسم نطاق الويب (Domain Name)</strong></td>
+                  <td>حجز مجاني مخصص باسم المعمل لمدة سنتين كاملتين.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+                <tr>
+                  <td><strong>الصفحة التعريفية Landing Page</strong></td>
+                  <td>تصميم صفحة تسويق للمعمل وهوية CRO لاستقطاب الكافيهات.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+                <tr>
+                  <td><strong>الدعم الفني الشامل وإدارة السيرفر</strong></td>
+                  <td>متابعة استقرار النظام وحل أي مشاكل فنية لمدة سنتين مجاناً.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="timeline-phase" style="border-top: 4px solid var(--brand-beige);">
-            <div class="phase-num">Phase 02</div>
-            <h4>واجهات الفروع وتدفق المعامل</h4>
-            <ul>
-              <li>تطوير واجهة الخدمة الذاتية للفروع لطلب الحلا والأصناف بيسر.</li>
-              <li>بناء واجهة الشيف (المعمل) لتلقي ومعالجة وتجهيز الطلبيات.</li>
-              <li>ربط نظام الحالات والإشعارات اللحظية الفورية للطرفين.</li>
-            </ul>
-          </div>
-          <div class="timeline-phase" style="border-top: 4px solid var(--danger);">
-            <div class="phase-num">Phase 03</div>
-            <h4>نظام المناديب والخرائط الجغرافية</h4>
-            <ul>
-              <li>برمجة نظام المندوب المتجاوب كلياً مع الجوالات والمسارات.</li>
-              <li>تكامل الخرائط الذكية لحماية خصوصية الفروع حتى الاستلام الفعلي.</li>
-              <li>بناء نظام تتبع الأخطاء والنواقص وتوثيقها بالصور.</li>
-            </ul>
-          </div>
-          <div class="timeline-phase" style="border-top: 4px solid var(--success);">
-            <div class="phase-num">Phase 04</div>
-            <h4>الاختبار الشامل والإطلاق التجريبي</h4>
-            <ul>
-              <li>اختبار كفاءة الضغط وسرعة معالجة وتدفق البيانات الفورية.</li>
-              <li>الإطلاق التجريبي المحدود مع مندوب وفرع واحد للتأكد.</li>
-              <li>التسليم النهائي، تدريب الطاقم وتفعيل فترة الضمان والشراكة.</li>
-            </ul>
+
+          <div class="pricing-summary">
+            <div class="price-card">
+              <span class="lbl">التكلفة الإجمالية المشمولة</span>
+              <div class="val">3,500 <span style="font-size: 15px;">ر.س</span></div>
+              <div class="dur">⏱️ مدة التطوير: أسبوع عمل واحد (7 أيام)</div>
+            </div>
+            <div class="g-box">
+              <div class="title-g">💼 آلية الدفع والالتزام بالمشروع</div>
+              <p class="desc-g">
+                التزام مطلق برضاكم التام عن النظام، وبناء التدفقات الفنية والتشغيلية المذكورة بأعلى مستويات الجودة والأداء الفني.<br><br>
+                - <strong>توزيع الدفعات:</strong> يتم تحويل <span style="color: var(--brand-purple-dark); font-weight: 800;">50% عند التعميد</span>، والمتبقي <span style="color: var(--brand-purple-dark); font-weight: 800;">50% عند تسليم العمل بشكل كامل ومطابق</span>.<br><br>
+                - <strong>الميزات المستقبلية:</strong> أي ميزات إضافية مستقبلية تطلب خارج نطاق هذه الاتفاقية يتم جدولتها وتسعيرها بشكل منفصل وسعر مستقل.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="slide" id="slide-9">
-      <div class="slide-body">
-        <div class="slide-title-area">
-          <h2>8. الخاتمة والدعم الفني المستدام</h2>
-          <p class="desc">نحن لا نقدم أكواداً برمجية فحسب، بل شريك تقني يضمن حماية واستمرارية ونمو أعمالكم التشغيلية بيسر وسهولة.</p>
+      <div class="slide-cover">
+        <div class="logo-container">
+          <img src="شعارات-03.png" alt="الشعار">
         </div>
-        <div class="support-wrapper">
-          <div class="support-feature">
-            <h4><i class="fa-solid fa-shield-halved"></i> ميثاق استدامة الخدمة والدعم التقني</h4>
-            <div class="support-item">
-              <i class="fa-solid fa-clock"></i>
-              <div class="support-item-text">
-                <h5>دعم فني تشغيلي متكامل</h5>
-                <p>مراقبة وحل أي مشكلات طارئة في النظام لضمان عدم توقف تدفق الطلبات اليومية للفروع والمعامل.</p>
-              </div>
-            </div>
-            <div class="support-item">
-              <i class="fa-solid fa-server"></i>
-              <div class="support-item-text">
-                <h5>نسخ احتياطي وحفظ البيانات الموثق</h5>
-                <p>تفعيل نسخ احتياطي دوري وتلقائي لقواعد البيانات لضمان أمان سجلات التوريد والمناديب والتقارير المالية.</p>
-              </div>
-            </div>
-            <div class="support-item">
-              <i class="fa-solid fa-code-branch"></i>
-              <div class="support-item-text">
-                <h5>تحديثات مستمرة وتطوير مجاني للنسخ</h5>
-                <p>ترقية خوادم الاستضافة وتحسين جودة الأداء والأمان دورياً لمواكبة تحديثات المتصفحات العالمية وأنظمة الجوال.</p>
-              </div>
-            </div>
-          </div>
-          <div class="price-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle, var(--brand-purple) 0%, var(--brand-purple-dark) 100%); border-color: var(--brand-beige);">
-            <i class="fa-solid fa-rocket" style="font-size: 50px; color: var(--brand-beige); margin-bottom: 20px;"></i>
-            <h3 style="font-size: 26px; color: white; margin-bottom: 10px;">جاهزون للانطلاق الفوري</h3>
-            <p style="font-size: 14px; color: var(--brand-beige-light); max-width: 280px; margin-bottom: 25px; line-height: 1.6;">دعنا ننقل عمليات التوريد واللوجستيات في CRO إلى العصر الرقمي المحوكم والمستقل بالكامل.</p>
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--brand-beige); border: 1px solid rgba(220,191,161,0.4); padding: 6px 16px; border-radius: 4px; font-weight: bold;">LET'S BUILD IT TOGETHER</div>
-          </div>
-        </div>
+        <h1 style="font-size: 64px;">شكراً لثقتكم بنا</h1>
+        <div class="subtitle" style="font-size: 22px; color: var(--brand-beige);">نحن هنا لنصنع من الخيال واقعاً ملموساً يغير من ملامح أعمالكم اليومية</div>
+        <div style="margin-top: 40px; font-size: 14px; opacity: 0.7; font-family: 'IBM Plex Mono', monospace;">© 2026</div>
       </div>
     </div>
 
     <div class="slide-footer">
       <div class="nav-buttons">
-        <button class="nav-btn" id="prev-btn" onclick="navigateSlide(-1)" disabled>
-          <i class="fa-solid fa-arrow-right"></i> السابق
-        </button>
-        <button class="nav-btn" id="next-btn" onclick="navigateSlide(1)">
-          التالي <i class="fa-solid fa-arrow-left"></i>
+        <button class="nav-btn" id="prev-btn" onclick="navigateSlide(-1)">
+          السابق <i class="fa-solid fa-chevron-left" style="font-size: 12px;"></i>
         </button>
       </div>
-      <div class="dots-container" id="dots-container"></div>
-      <div class="signature-footer">CRO SYSTEM 2026 — DIGITAL TRANSFORMATION</div>
+
+      <div class="dots-container" id="dots-container">
+        </div>
+
+      <div class="nav-buttons">
+        <button class="nav-btn" id="next-btn" onclick="navigateSlide(1)">
+          التالي <i class="fa-solid fa-chevron-right" style="font-size: 12px;"></i>
+        </button>
+      </div>
     </div>
 
   </div>
@@ -1461,33 +1194,78 @@
     let currentSlide = 1;
     const totalSlides = 9;
 
-    // بناء نقاط الملاحة السفلية تلقائياً
+    // تهيئة ميزات اللمس والسحب للجوال (Touch Swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const deckContainer = document.getElementById('main-deck');
+
+    deckContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    deckContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const swipeThreshold = 50; // الحد الأدنى للمسافة بالسحب
+      if (touchStartX - touchEndX > swipeThreshold) {
+        // سحب لليسار -> الشريحة التالية
+        navigateSlide(1);
+      } else if (touchEndX - touchStartX > swipeThreshold) {
+        // سحب لليمين -> الشريحة السابقة
+        navigateSlide(-1);
+      }
+    }
+
+    // دوال النوافذ التنبيهية
+    function closeAlert() {
+      document.getElementById('welcome-alert').style.display = 'none';
+    }
+
+    // التجاوب التلقائي الذكي لأحجام الشاشات المختلفة
+    function resizeDeck() {
+      const deck = document.getElementById('main-deck');
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      
+      const baseWidth = 1280;
+      const baseHeight = 720;
+      
+      let scale = Math.min(windowWidth / baseWidth, windowHeight / baseHeight);
+      
+      if (windowWidth < 1320 || windowHeight < 760) {
+        deck.style.transform = `scale(${scale * 0.95})`;
+      } else {
+        deck.style.transform = 'scale(1)';
+      }
+    }
+
+    window.addEventListener('resize', resizeDeck);
+    window.addEventListener('load', resizeDeck);
+
+    // تهيئة نقاط التنقل آلياً بالأسفل
     const dotsContainer = document.getElementById('dots-container');
     for (let i = 1; i <= totalSlides; i++) {
       const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (i === 1) dot.classList.add('active');
-      dot.addEventListener('click', () => goToSlide(i));
+      dot.className = `dot ${i === 1 ? 'active' : ''}`;
+      dot.onclick = () => goToSlide(i);
       dotsContainer.appendChild(dot);
     }
 
     function updateNavState() {
-      // إخفاء الهيدر المشترك تماماً في الشريحة الأولى (الغلاف) وإظهاره في باقي الشرائح
-      const header = document.getElementById('common-header');
-      if (currentSlide === 1) {
-        header.style.display = 'none';
+      const commonHeader = document.getElementById('common-header');
+      if (currentSlide === 1 || currentSlide === 9) {
+        commonHeader.style.display = 'none';
       } else {
-        header.style.display = 'flex';
+        commonHeader.style.display = 'flex';
+        document.getElementById('slide-indicator').innerText = `الشريحة ${currentSlide} من ${totalSlides}`;
       }
 
-      // تحديث رقم الشريحة الحالي في العداد العلوي
-      document.getElementById('slide-indicator').innerText = `الشريحة ${currentSlide} من ${totalSlides}`;
-
-      // تمكين/تعطيل أزرار الملاحة السفلية لمنع تجاوز النطاق
       document.getElementById('prev-btn').disabled = currentSlide === 1;
       document.getElementById('next-btn').disabled = currentSlide === totalSlides;
 
-      // تحديث فئات النشاط (Active) لإظهار الشريحة النشطة وإخفاء البقية
       for (let i = 1; i <= totalSlides; i++) {
         const slide = document.getElementById(`slide-${i}`);
         if (slide) {
@@ -1499,7 +1277,6 @@
         }
       }
 
-      // تحديث نقاط الملاحة بالأسفل لتعكس موضع المستخدم الحالي
       const dots = document.querySelectorAll('.dot');
       dots.forEach((dot, index) => {
         if (index + 1 === currentSlide) {
@@ -1508,9 +1285,9 @@
           dot.classList.remove('active');
         }
       });
-
-      // إعادة تعيين التمرير الرأسي لأعلى الشريحة عند الانتقال لضمان تجربة سلسة على الجوال
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // إعادة ضبط القياسات عند تبديل الشرائح لضمان عدم حدوث تشويه
+      resizeDeck();
     }
 
     function navigateSlide(direction) {
@@ -1528,20 +1305,17 @@
       }
     }
 
-    // دعم التنقل السلس عبر الأسهم والمسافة في لوحة مفاتيح الكمبيوتر (Keyboard Shortcuts)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') {
-        // السهم الأيمن يعود للخلف في البيئة العربية RTL
-        navigateSlide(-1);
-      } else if (e.key === 'ArrowLeft' || e.key === ' ') {
-        // السهم الأيسر أو زر المسافة يتقدم للأمام
-        e.preventDefault();
+      if (e.key === 'ArrowRight' || e.key === ' ') {
         navigateSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        navigateSlide(-1);
       }
     });
 
-    // تشغيل نظام الحالة والتحقق عند بدء تحميل الصفحة لأول مرة
+    // تشغيل التهيئات الأولى
     updateNavState();
+    resizeDeck();
   </script>
 </body>
 </html>
