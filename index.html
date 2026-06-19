@@ -45,7 +45,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     /* ===== حاوية العرض التقديمي (16:9) ===== */
@@ -333,7 +333,7 @@
       color: var(--brand-beige);
     }
 
-    /* 3. شريحة مخطط تدفق الطلب التفاعلي (Diagram 1) */
+    /* 3. شريحة مخطط تدفق الطلب التفاعلي */
     .lane-grid {
       display: grid;
       grid-template-columns: 120px 1fr;
@@ -419,7 +419,7 @@
       color: var(--text-muted);
     }
 
-    /* 4. شريحة الأدوار والصلاحيات الأربعة (Diagram 2) */
+    /* 4. شريحة الأدوار والصلاحيات الأربعة */
     .roles-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -497,7 +497,7 @@
       font-weight: 600;
     }
 
-    /* 5. شريحة آلية ربط الفروع بالمعامل (Diagram 3) */
+    /* 5. شريحة آلية ربط الفروع بالمعامل */
     .map-wrap {
       display: flex;
       gap: 15px;
@@ -581,7 +581,7 @@
       border-radius: 2px;
     }
 
-    /* 6. شريحة دورة حياة حالة الطلب (Diagram 4) */
+    /* 6. شريحة دورة حياة حالة الطلب */
     .status-track {
       display: flex;
       align-items: flex-start;
@@ -747,6 +747,160 @@
     .g-box .title-g { color: var(--success); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
     .g-box .desc-g { font-size: 12px; color: var(--text-main); line-height: 1.6; font-weight: 500; }
 
+
+    /* ========================================================= */
+    /* ===== ملاءمة العرض مع الجوال والشاشات الصغيرة (Responsive) ===== */
+    /* ========================================================= */
+    @media (max-width: 1280px) {
+      .deck-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slide-header {
+        padding: 12px 20px;
+      }
+      .slide-header .brand-logo img {
+        height: 32px;
+      }
+      .slide-header .brand-logo .brand-name {
+        font-size: 15px;
+      }
+      .slide-body {
+        padding: 20px 20px 80px;
+      }
+      .slide-title-area {
+        margin-bottom: 15px;
+        padding-right: 10px;
+      }
+      .slide-title-area h2 {
+        font-size: 20px;
+      }
+      .slide-title-area p.desc {
+        font-size: 12px;
+      }
+      .slide-footer {
+        padding: 10px 20px;
+      }
+      .nav-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      /* شريحة الغلاف */
+      .slide-cover h1 {
+        font-size: 28px;
+      }
+      .slide-cover .subtitle {
+        font-size: 15px;
+      }
+      .slide-cover .logo-container img {
+        max-height: 90px;
+      }
+
+      /* شريحة الرؤية والتحول */
+      .vision-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .vision-card {
+        padding: 15px;
+      }
+      .vision-card h3 {
+        font-size: 16px;
+      }
+      .vision-card ul li {
+        font-size: 13px;
+      }
+
+      /* شريحة مخطط تدفق الطلب التفاعلي */
+      .lane-grid {
+        grid-template-columns: 1fr;
+      }
+      .lane-label {
+        padding: 8px;
+        border-bottom: 1px solid rgba(220,191,161,0.4);
+      }
+      .lane-row {
+        padding: 10px;
+        justify-content: center;
+      }
+      .node {
+        width: 100%;
+        max-width: 100%;
+      }
+      .arrow {
+        transform: rotate(90deg);
+        margin: 4px 0;
+      }
+      .branch-split {
+        width: 100%;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      /* شريحة الأدوار والصلاحيات */
+      .roles-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .role-card {
+        padding: 15px;
+      }
+      .role-head h3 {
+        font-size: 16px;
+      }
+
+      /* شريحة آلية ربط الفروع بالمعامل */
+      .map-wrap {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+      }
+      .map-col.center-col {
+        padding: 5px 0;
+      }
+      .center-label {
+        writing-mode: horizontal-tb;
+        letter-spacing: 0;
+        font-size: 12px;
+      }
+      .legend {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      /* شريحة العرض المالي */
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .pricing-table-card {
+        overflow-x: auto;
+      }
+      .pricing-table th, .pricing-table td {
+        padding: 8px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .pricing-table td u, .pricing-table td strong {
+        white-space: normal;
+      }
+      .price-card {
+        padding: 15px;
+      }
+      .price-card .val {
+        font-size: 26px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -755,7 +909,7 @@
     
     <div class="slide-header" id="common-header" style="display: none;">
       <div class="brand-logo">
-        <img src="logo.png" alt="الشعار">
+        <img src="شعارات-03.png" alt="الشعار">
         <span class="brand-name">CRO System</span>
       </div>
       <div class="slide-indicator" id="slide-indicator">الشريحة 1 من 9</div>
@@ -764,7 +918,7 @@
     <div class="slide active" id="slide-1">
       <div class="slide-cover">
         <div class="logo-container">
-          <img src="logo.png" alt="الشعار">
+          <img src="شعارات-03.png" alt="الشعار">
         </div>
         <h1>مشروع التحول التقني لـ CRO</h1>
         <div class="subtitle">رؤية حوكمة الإنتاج والتوصيل الذكي وتأسيس البنية التقنية للمعامل</div>
@@ -873,7 +1027,7 @@
               <h3>المعمل (الشيف)</h3>
             </div>
             <ul class="role-list">
-              <li>استقبال طلبات الفروع المربوطة.</li>
+              <li>استقبل طلبات الفروع المربوطة.</li>
               <li>الموافقة، الرفض وتعديل الكميات.</li>
               <li>إسناد الطلبات الجاهزة للمناديب.</li>
               <li>إشعار الإدارة بالتجهيز والجاهزية.</li>
@@ -1090,7 +1244,7 @@
     <div class="slide" id="slide-9">
       <div class="slide-cover">
         <div class="logo-container">
-          <img src="logo.png" alt="الشعار">
+          <img src="شعارات-03.png" alt="الشعار">
         </div>
         <h1 style="font-size: 64px;">شكراً لثقتكم بنا</h1>
         <div class="subtitle" style="font-size: 22px; color: var(--brand-beige);">نحن هنا لنصنع من الخيال واقعاً ملموساً يغير من ملامح أعمالكم اليومية</div>
