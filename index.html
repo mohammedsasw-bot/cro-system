@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشروع التحول التقني لـ CRO — عرض تقديمي متكامل</title>
+  
+  <!-- الخطوط الرسمية والهوية البصرية -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      /* هوية الألوان المستخرجة بدقة من الشعارات الجديدة */
+      --brand-purple-dark: #3b2739;   /* الأرجواني الداكن الفخم */
+      --brand-purple: #563e56;        /* الأرجواني الأساسي */
+      --brand-purple-light: #705370;  /* أرجواني متوسط للحدود والزخارف */
+      --brand-beige: #dcbfa1;         /* البيج الدافئ / الذهبي الهادئ */
+      --brand-beige-light: #ebd6bd;   /* البيج الفاتح للأسطح الهادئة */
+      --brand-cream: #f9f6f0;         /* خلفية الشريحة الكلاسيكية الفخمة */
+      
+      --text-main: #3b2739;           /* الأرجواني الداكن للنصوص لتباين ممتاز */
+      --text-muted: #6e5c6d;          /* نصوص باهتة */
+      --border: #ebd6bd;              /* لون الحدود الهادئة */
+      
+      /* حالات تدفق الطلب */
+      --success: #6e8a68;             /* مطابق / مقبول */
+      --warning: #d4a373;             /* مقبول جزئياً */
+      --danger: #b6543f;              /* نقص / مشاكل */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1a1219; /* خلفية الغرفة الخارجية لإبراز الشريحة */
+      color: var(--brand-cream);
+      font-family: 'Tajawal', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ===== حاوية العرض التقديمي (16:9) ===== */
+    .deck-container {
+      width: 1280px;
+      height: 720px;
+      background-color: var(--brand-cream);
+      color: var(--text-main);
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+      border: 2px solid var(--brand-beige);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* زخرفة الخلفية للشرائح */
+    .deck-container::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 40%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(220, 191, 161, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .deck-container::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      right: -10%;
+      width: 40%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(86, 62, 86, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== الشريط العلوي لكل شريحة ===== */
+    .slide-header {
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(220, 191, 161, 0.4);
+      z-index: 2;
+    }
+
+    .slide-header .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slide-header .brand-logo img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .slide-header .brand-logo .brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--brand-purple-dark);
+      letter-spacing: 0.5px;
+    }
+
+    .slide-header .slide-indicator {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--brand-purple);
+      background: rgba(220, 191, 161, 0.25);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    /* ===== جسم الشريحة الفعلي ===== */
+    .slide-body {
+      flex: 1;
+      padding: 40px 60px 20px;
+      z-index: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-title-area {
+      margin-bottom: 25px;
+      border-right: 5px solid var(--brand-beige);
+      padding-right: 15px;
+    }
+
+    .slide-title-area h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--brand-purple-dark);
+    }
+
+    .slide-title-area p.desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== الشرائح الفردية ===== */
+    .slide {
+      display: none;
+      height: 100%;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* ===== الشريط السفلي للملاحة والتنقل ===== */
+    .slide-footer {
+      padding: 16px 48px;
+      border-top: 1px solid rgba(220, 191, 161, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(249, 246, 240, 0.85);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      background: var(--brand-purple);
+      color: var(--brand-cream);
+      border: 1px solid var(--brand-purple-light);
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Tajawal', sans-serif;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--brand-purple-dark);
+      border-color: var(--brand-beige);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(86, 62, 86, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: var(--brand-purple);
+      transform: scale(1.2);
+    }
+
+    .signature-footer {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ========================================================= */
+    /* =================== تصاميم الشرائح الخاصة ================ */
+    /* ========================================================= */
+
+    /* 1. الشريحة الأولى: الغلاف */
+    .slide-cover {
+      background: radial-gradient(circle at 70% 30%, rgba(220, 191, 161, 0.2) 0%, rgba(59, 39, 57, 0.03) 100%), var(--brand-purple-dark);
+      color: var(--brand-cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      padding: 60px;
+      position: relative;
+    }
+
+    .slide-cover .logo-container {
+      margin-bottom: 25px;
+    }
+
+    .slide-cover .logo-container img {
+      max-height: 160px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .slide-cover h1 {
+      font-size: 54px;
+      font-weight: 800;
+      color: var(--brand-beige);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .slide-cover .subtitle {
+      font-size: 20px;
+      color: var(--brand-cream);
+      opacity: 0.85;
+      max-width: 750px;
+      line-height: 1.6;
+    }
+
+    .slide-cover .badge {
+      background: var(--brand-purple);
+      border: 1px solid var(--brand-beige);
+      color: var(--brand-beige);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-top: 30px;
+      letter-spacing: 1px;
+    }
+
+    /* 2. شريحة الرؤية والتحول */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 10px;
+    }
+
+    .vision-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .vision-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vision-card ul {
+      list-style-type: none;
+      padding-right: 0;
+    }
+
+    .vision-card ul li {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      position: relative;
+      padding-right: 20px;
+    }
+
+    .vision-card ul li::before {
+      content: '✦';
+      position: absolute;
+      right: 0;
+      color: var(--brand-beige);
+    }
+
+    /* 3. شريحة مخطط تدفق الطلب التفاعلي (Diagram 1) */
+    .lane-grid {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      font-size: 12px;
+      background: white;
+    }
+
+    .lane-label {
+      background: var(--brand-purple-dark);
+      color: var(--brand-cream);
+      border-bottom: 1px solid rgba(220,191,161,0.2);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .lane-label b {
+      color: var(--brand-beige);
+      display: block;
+      font-size: 13px;
+    }
+
+    .lane-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 15px;
+      flex-wrap: wrap;
+    }
+
+    .lane-grid > div:nth-last-child(-n+2) { border-bottom: none; }
+
+    /* Lane classes with low opacity */
+    .lane-row.branch { background: rgba(110, 138, 104, 0.03); }
+    .lane-row.factory { background: rgba(220, 191, 161, 0.03); }
+    .lane-row.courier { background: rgba(182, 84, 63, 0.03); }
+    .lane-row.admin { background: rgba(86, 62, 86, 0.02); }
+
+    .node {
+      background: var(--brand-cream);
+      border: 1px solid var(--brand-beige);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 11.5px;
+      min-width: 140px;
+      max-width: 260px;
+    }
+
+    .node .tag {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--brand-purple);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .node.alert {
+      border-color: var(--danger);
+      background: rgba(182, 84, 63, 0.05);
+    }
+
+    .arrow {
+      color: var(--brand-purple);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .branch-split {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .branch-split .opt {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    /* 4. شريحة الأدوار والصلاحيات الأربعة (Diagram 2) */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .role-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 4px;
+      background: var(--brand-purple);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .role-card.admin::before { background: var(--text-muted); }
+    .role-card.factory::before { background: var(--brand-beige); }
+    .role-card.courier::before { background: var(--danger); }
+    .role-card.branch::before { background: var(--success); }
+
+    .role-head { margin-bottom: 12px; }
+    .role-head .role-no {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .role-head h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--brand-purple-dark);
+    }
+
+    .role-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .role-list li {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-right: 12px;
+      position: relative;
+    }
+
+    .role-list li::before {
+      content: '—';
+      position: absolute;
+      right: 0;
+      color: var(--brand-beige);
+    }
+
+    .role-footer {
+      border-top: 1px dashed var(--border);
+      margin-top: 15px;
+      padding-top: 10px;
+      font-size: 11px;
+      color: var(--brand-purple);
+      font-weight: 600;
+    }
+
+    /* 5. شريحة آلية ربط الفروع بالمعامل (Diagram 3) */
+    .map-wrap {
+      display: flex;
+      gap: 15px;
+      align-items: stretch;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 8px;
+    }
+
+    .map-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .map-col.center-col {
+      flex: 0 0 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .map-card {
+      background: var(--brand-cream);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 14px;
+    }
+
+    .map-card .role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--brand-purple);
+      font-weight: 600;
+    }
+
+    .map-card .name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand-purple-dark);
+    }
+
+    .map-card.active-m {
+      border-color: var(--success);
+      background: rgba(110, 138, 104, 0.05);
+    }
+
+    .map-card.factory-m {
+      border-color: var(--brand-beige);
+      background: rgba(220, 191, 161, 0.1);
+    }
+
+    .center-label {
+      font-size: 11px;
+      color: var(--brand-purple);
+      font-weight: 700;
+      writing-mode: vertical-rl;
+      letter-spacing: 1.5px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .legend-color {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* 6. شريحة دورة حياة حالة الطلب (Diagram 4) */
+    .status-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      overflow-x: auto;
+      padding: 15px 5px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .status-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      width: 115px;
+    }
+
+    .status-node {
+      background: var(--brand-cream);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      min-height: 58px;
+      justify-content: center;
+    }
+
+    .status-node .snum {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--brand-purple);
+    }
+
+    .status-owner {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .status-conn {
+      width: 25px;
+      height: 2px;
+      margin-top: 28px;
+      background: repeating-linear-gradient(to left, var(--brand-beige) 0 4px, transparent 4px 8px);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .status-conn::after {
+      content: '◀';
+      position: absolute;
+      right: -2px;
+      top: -6px;
+      font-size: 9px;
+      color: var(--brand-beige);
+    }
+
+    .status-conn.dashed {
+      background: repeating-linear-gradient(to left, var(--danger) 0 4px, transparent 4px 8px);
+    }
+
+    .status-conn.dashed::after {
+      color: var(--danger);
+    }
+
+    .status-fork {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fork-node {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 10.5px;
+      font-weight: 700;
+      width: 115px;
+      text-align: center;
+    }
+
+    .fork-node.ok { border-color: var(--success); background: rgba(110, 138, 104, 0.05); }
+    .fork-node.warn { border-color: var(--warning); background: rgba(212, 163, 115, 0.05); }
+    .fork-node.alert { border-color: var(--danger); background: rgba(182, 84, 63, 0.05); }
+
+    /* 7. شريحة العرض المالي */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .pricing-table-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    .pricing-table th, .pricing-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+
+    .pricing-table th {
+      background: var(--brand-purple-dark);
+      color: var(--brand-beige);
+      font-weight: 700;
+    }
+
+    .pricing-table .free-badge {
+      background: var(--success);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .pricing-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .price-card {
+      background: var(--brand-purple-dark);
+      border: 1px solid var(--brand-beige);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--brand-cream);
+    }
+
+    .price-card .lbl { font-size: 13px; color: var(--brand-beige); font-weight: 600; }
+    .price-card .val { font-size: 34px; font-weight: 800; margin: 8px 0; color: white; }
+    .price-card .dur { font-size: 12.5px; color: var(--brand-beige-light); border-top: 1px solid rgba(220,191,161,0.2); padding-top: 10px; }
+
+    .g-box {
+      background: rgba(110, 138, 104, 0.05);
+      border: 1px solid var(--success);
+      border-radius: 6px;
+      padding: 15px;
+    }
+
+    .g-box .title-g { color: var(--success); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+    .g-box .desc-g { font-size: 12px; color: var(--text-main); line-height: 1.6; font-weight: 500; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== الحاوية الرئيسية للعرض التقديمي ===== -->
+  <div class="deck-container">
+    
+    <!-- الشريط العلوي المستمر لجميع الشرائح عدا الغلاف والختام -->
+    <div class="slide-header" id="common-header" style="display: none;">
+      <div class="brand-logo">
+        <!-- وضع ملف الشعار الفعلي والجاهز مباشرة دون تعديل برمجياً -->
+        <img src="شعارات-03.png" alt="الشعار">
+        <span class="brand-name">CRO System</span>
+      </div>
+      <div class="slide-indicator" id="slide-indicator">الشريحة 1 من 9</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- ======================== الشرائح ======================== -->
+    <!-- ========================================================= -->
+
+    <!-- الشريحة 1: الغلاف -->
+    <div class="slide active" id="slide-1">
+      <div class="slide-cover">
+        <div class="logo-container">
+          <!-- وضع ملف الشعار الفعلي المرفق بشكل مباشر للغلاف -->
+          <img src="شعارات-03.png" alt="الشعار">
+        </div>
+        <h1>مشروع التحول التقني لـ CRO</h1>
+        <div class="subtitle">رؤية حوكمة الإنتاج والتوصيل الذكي وتأسيس البنية التقنية للمعامل</div>
+        <div class="badge">خيالك واقعنا</div>
+      </div>
+    </div>
+
+    <!-- الشريحة 2: مقدمة ورؤية التحول التقني -->
+    <div class="slide" id="slide-2">
+      <div class="slide-body">
+        <div class="slide-title-area">
+          <h2>1. رؤية التحول وحوكمة دورة الطلب</h2>
+          <p class="desc">الهدف الأساسي هو إيقاف عشوائية تطبيق "واتساب" والاعتماد على بيئة مؤتمتة تحقق الاستقلال الإداري والتشغيلي التام.</p>
+        </div>
+        <div class="vision-grid">
+          <div class="vision-card">
+            <h3 style="color: var(--brand-purple-dark);"><i class="fa-solid fa-triangle-exclamation"></i> المشكلة والأثر التشغيلي</h3>
+            <ul>
+              <li>صعوبة تتبع الطلبات وتفاصيل النواقص والكميات بشكل موثق.</li>
+              <li>انكشاف تفاصيل الشحنات الإجمالية للمناديب مبكراً مما يسبب خلط الشحنات.</li>
+              <li>الاستهلاك الزمني المستمر من الإدارة لمتابعة تفاصيل تشغيلية روتينية يومية.</li>
+            </ul>
+          </div>
+          <div class="vision-card">
+            <h3 style="color: var(--success);"><i class="fa-solid fa-circle-check"></i> حل نظام CRO المحوكم</h3>
+            <ul>
+              <li>بيئة تفاعلية مستقلة مبنية على الخدمة الذاتية للفروع والمعامل.</li>
+              <li>نظام إشعار ذكي لا يتدخل فيه الإدارة إلا في حالات الاستثناء والشكاوى.</li>
+              <li>تطبيق ملاحة وتوجيه جغرافي مرن يحمي خصوصية البيانات ويسهل التوصيل.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 3: مخطط تدفق الطلب التفاعلي (Diagram 1) -->
+    <div class="slide" id="slide-3">
+      <div class="slide-body" style="padding-top: 25px;">
+        <div class="slide-title-area" style="margin-bottom: 15px;">
+          <h2>2. مخطط تدفق الطلب التفاعلي عبر الأقسام</h2>
+          <p class="desc">يسير الطلب آلياً بين الفروع، الشيف والمندوب دون الحاجة لتدخل الإدارة العليا.</p>
+        </div>
+        
+        <div class="lane-grid">
+          <!-- Lane 1 -->
+          <div class="lane-label"><div><b>الفرع</b>الكافي</div></div>
+          <div class="lane-row branch">
+            <div class="node"><span class="tag">خطوة 1</span>تسجيل الدخول وبناء طلب جديد من الأصناف المتاحة</div>
+            <div class="arrow">←</div>
+            <div class="node"><span class="tag">خطوة 2</span>إرسال الطلب وحجز رقم تسلسلي فريد تلقائي</div>
+          </div>
+          <!-- Lane 2 -->
+          <div class="lane-label"><div><b>المعمل</b>الشيف</div></div>
+          <div class="lane-row factory">
+            <div class="node"><span class="tag">خطوة 3</span>استلام الطلب بكامل تفاصيل الفرع وموقعه الجغرافي</div>
+            <div class="arrow">←</div>
+            <div class="node">
+              <span class="tag">خطوة 4</span>
+              <div class="branch-split">
+                <span class="opt" style="color: var(--success);">✓ قبول الصنف بالكامل</span>
+                <span class="opt" style="color: var(--warning);">⟳ تعديل الكمية المتاحة</span>
+                <span class="opt" style="color: var(--danger);">✕ رفض الصنف</span>
+              </div>
+            </div>
+            <div class="arrow">←</div>
+            <div class="node"><span class="tag">خطوة 5</span>قيد التجهيز ← جاهز للتوصيل</div>
+          </div>
+          <!-- Lane 3 -->
+          <div class="lane-label"><div><b>المندوب</b>التوصيل</div></div>
+          <div class="lane-row courier">
+            <div class="node"><span class="tag">خطوة 6</span>استلام الكميات وتحديث الحالة "جاري التوصيل"</div>
+            <div class="arrow">←</div>
+            <div class="node alert"><span class="tag">ميزة الأمان</span>تنكشف تفاصيل الفرع وموقع الخرائط بعد الاستلام الفعلي</div>
+          </div>
+          <!-- Lane 4 -->
+          <div class="lane-label"><div><b>الفرع</b>الاستلام</div></div>
+          <div class="lane-row branch">
+            <div class="node"><span class="tag">خطوة 7</span>مطابقة الأصناف والكميات عند وصول المندوب</div>
+            <div class="arrow">←</div>
+            <div class="branch-split" style="flex-direction: row; gap: 8px;">
+              <div class="node" style="border-color: var(--success);"><span class="tag">مطابق</span>تأكيد الاستلام الكلي للطلب</div>
+              <div class="node alert"><span class="tag">غير مطابق</span>تسجيل النقص وصورة للمراجعة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 4: الأدوار والصلاحيات (Diagram 2) -->
+    <div class="slide" id="slide-4">
+      <div class="slide-body">
+        <div class="slide-title-area">
+          <h2>3. هيكل الصلاحيات والأدوار الأربعة</h2>
+          <p class="desc">أربعة مستويات من الأذونات تضمن كفاءة وحماية العمليات والبيانات المالية الحساسة.</p>
+        </div>
+        <div class="roles-grid">
+          <!-- Admin -->
+          <div class="role-card admin">
+            <div class="role-head">
+              <span class="role-no">User Type 01</span>
+              <h3>الادارة</h3>
+            </div>
+            <ul class="role-list">
+              <li>إنشاء حسابات المستخدمين.</li>
+              <li>إضافة الأصناف وتحديث الأسعار.</li>
+              <li>التحكم بإظهار/إخفاء الأسعار.</li>
+              <li>الاطلاع الشامل على التقارير.</li>
+            </ul>
+            <div class="role-footer">رقابة شاملة بدون عمل تشغيلي</div>
+          </div>
+          <!-- Factory -->
+          <div class="role-card factory">
+            <div class="role-head">
+              <span class="role-no">User Type 02</span>
+              <h3>المعمل (الشيف)</h3>
+            </div>
+            <ul class="role-list">
+              <li>استقبال طلبات الفروع المربوطة.</li>
+              <li>الموافقة، الرفض وتعديل الكميات.</li>
+              <li>إسناد الطلبات الجاهزة للمناديب.</li>
+              <li>إشعار الإدارة بالتجهيز والجاهزية.</li>
+            </ul>
+            <div class="role-footer">إدارة المخزون والتوريد المباشر</div>
+          </div>
+          <!-- Courier -->
+          <div class="role-card courier">
+            <div class="role-head">
+              <span class="role-no">User Type 03</span>
+              <h3>المندوب</h3>
+            </div>
+            <ul class="role-list">
+              <li>رؤية الطلبات الجاهزة للتوصيل.</li>
+              <li>تأكيد استلام الشحنة لبدء المسار.</li>
+              <li>رؤية تتبع المواقع عبر Google Maps.</li>
+              <li>استلام الطلبات متعددة المحطات.</li>
+            </ul>
+            <div class="role-footer">المرونة واللوجستيات في الميدان</div>
+          </div>
+          <!-- Branch -->
+          <div class="role-card branch">
+            <div class="role-head">
+              <span class="role-no">User Type 04</span>
+              <h3>الفرع (الكافي)</h3>
+            </div>
+            <ul class="role-list">
+              <li>إنشاء الطلبات اليومية بيسر وسهولة.</li>
+              <li>تتبع الحالات من المعمل حتى الوصول.</li>
+              <li>تأكيد استلام المنتجات ومطابقتها.</li>
+              <li>رفع تقارير الأخطاء مدعومة بالصور.</li>
+            </ul>
+            <div class="role-footer">إنشاء الطلبات والتحقق النهائي</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 5: ربط الفروع بالمعامل والتوسع (Diagram 3) -->
+    <div class="slide" id="slide-5">
+      <div class="slide-body">
+        <div class="slide-title-area">
+          <h2>4. ربط الفروع بالمعامل والتوزيع الجغرافي</h2>
+          <p class="desc">هيكلية ذكية تتيح النمو المستقبلي وتدعم إضافة معامل توريد جديدة دون أي حاجة لتعديل كود النظام الأساسي.</p>
+        </div>
+        
+        <div class="map-wrap">
+          <div class="map-col">
+            <div class="map-card active-m"><div class="role">الفرع الداخلي 01</div><div class="name">ليون — العليا</div></div>
+            <div class="map-card active-m"><div class="role">الفرع الداخلي 02</div><div class="name">ليون — الياسمين</div></div>
+            <div class="map-card active-m"><div class="role">الفرع الداخلي 03</div><div class="name">ليون — النرجس</div></div>
+            <div class="map-card"><div class="role">فرع خارجي مستقبلي</div><div class="name">كافي خارجي (عميل جديد)</div></div>
+          </div>
+          <div class="map-col center-col">
+            <div class="center-label">ارتباط جغرافي ذكي وتوجيه فوري للطلبات</div>
+          </div>
+          <div class="map-col">
+            <div class="map-card factory-m"><div class="role">المعمل الفعلي المعتمد</div><div class="name">CRO — مصنع الحلا الرئيسي</div></div>
+            <div class="map-card" style="opacity: 0.45; border-style: dashed;"><div class="role">توسع مستقبلي</div><div class="name">معمل إنتاج وتوزيع إضافي 02</div></div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><span class="legend-color" style="background: var(--success);"></span><span>فروع ليون المرتبطة جغرافياً</span></div>
+          <div class="legend-item"><span class="legend-color" style="background: var(--brand-beige);"></span><span>معمل الإنتاج الحالي والتوريد الفعلي</span></div>
+          <div class="legend-item"><span class="legend-color" style="background: var(--text-muted);"></span><span>جاهزية النظام للتمدد ومضاعفة الإنتاج</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 6: دورة حياة حالة الطلب التفصيلية (Diagram 4) -->
+    <div class="slide" id="slide-6">
+      <div class="slide-body" style="padding-top: 30px;">
+        <div class="slide-title-area" style="margin-bottom: 20px;">
+          <h2>5. دورة حياة تتبع حالة الطلب الفنية</h2>
+          <p class="desc">تفصيل دقيق لتسلسل الحالات ومسار الاستثناء الإداري عند حدوث مشاكل تسليم.</p>
+        </div>
+
+        <div class="status-track">
+          <!-- Step 1 -->
+          <div class="status-step">
+            <div class="status-node"><span class="snum">01</span>جديد</div>
+            <div class="status-owner">الفرع</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 2 -->
+          <div class="status-step">
+            <div class="status-node"><span class="snum">02</span>قيد المراجعة</div>
+            <div class="status-owner">الشيف</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 3 (Fork) -->
+          <div class="status-step">
+            <div class="status-fork">
+              <div class="fork-node ok"><span class="snum">03A</span>مقبول كلياً</div>
+              <div class="fork-node warn"><span class="snum">03B</span>مقبول جزئياً</div>
+            </div>
+            <div class="status-owner">الشيف</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 4 -->
+          <div class="status-step">
+            <div class="status-node"><span class="snum">04</span>قيد التجهيز</div>
+            <div class="status-owner">الشيف</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 5 -->
+          <div class="status-step">
+            <div class="status-node"><span class="snum">05</span>جاهز للتوصيل</div>
+            <div class="status-owner">الشيف</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 6 -->
+          <div class="status-step">
+            <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">06</span>استلام المندوب</div>
+            <div class="status-owner">المندوب</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 7 -->
+          <div class="status-step">
+            <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">07</span>جاري التوصيل</div>
+            <div class="status-owner">المندوب</div>
+          </div>
+          <div class="status-conn"></div>
+          <!-- Step 8 (Fork 2) -->
+          <div class="status-step">
+            <div class="status-fork">
+              <div class="fork-node ok"><span class="snum">08A</span>تم التسليم</div>
+              <div class="fork-node alert"><span class="snum">08B</span>تسليم بنقص</div>
+            </div>
+            <div class="status-owner">الفرع</div>
+          </div>
+          <div class="status-conn dashed"></div>
+          <!-- Step 9 -->
+          <div class="status-step">
+            <div class="status-node" style="background: rgba(112, 83, 112, 0.15); border-color: var(--brand-purple-light);"><span class="snum">09</span>مغلق ومحفوظ</div>
+            <div class="status-owner">آلي / الإدارة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 7: حل مشكلة التنبيهات المبتكر -->
+    <div class="slide" id="slide-7">
+      <div class="slide-body">
+        <div class="slide-title-area">
+          <h2>6. الابتكار في الإشعارات والربط الخارجي</h2>
+          <p class="desc">كيف تغلبنا على عوائق تطبيقات الويب وتوفير أقصى انسيابية تشغيلية للمناديب والكافيهات.</p>
+        </div>
+        <div class="vision-grid" style="margin-top: 15px;">
+          <div class="vision-card">
+            <h3 style="color: var(--brand-purple);"><i class="fa-solid fa-bell"></i> إشعارات الويب الذكية (Web Push)</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.8;">
+              بدلاً من دفع مبالغ ضخمة لبناء تطبيقات جوال مستقلة، يعتمد النظام على تقنية Web Push المعتمدة مباشرة بالمتصفح لإرسال الإشعارات اللحظية للشيف فور إرسال الطلب، وللمندوب عند جاهزية الحلا للتوصيل، وللإدارة فور حدوث أي نقص تشغيلي.
+            </p>
+          </div>
+          <div class="vision-card">
+            <h3 style="color: var(--brand-purple);"><i class="fa-solid fa-map-location-dot"></i> آلية Claim والتوزيع للمناديب</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.8;">
+              يظهر الطلب "الجاهز للتوصيل" لجميع مناديب المعمل المعتمد جغرافياً، وأول مندوب يؤكد الاستلام يختفي الطلب من البقية لضمان السرعة ومنع ازدواجية الرحلات وتلافي الخطأ البشري تماماً.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 8: العرض المالي والجدول الزمني -->
+    <div class="slide" id="slide-8">
+      <div class="slide-body">
+        <div class="slide-title-area">
+          <h2>7. العرض المالي والخدمات المشمولة بالتعاقد</h2>
+          <p class="desc">سعر تنافسي متكامل شامل تطوير المميزات الحالية، ضمان جودة التشغيل، والهدايا الرقمية الإضافية.</p>
+        </div>
+        
+        <div class="pricing-grid">
+          <div class="pricing-table-card">
+            <table class="pricing-table">
+              <thead>
+                <tr>
+                  <th>البند والخدمة</th>
+                  <th>الحالة والتفاصيل</th>
+                  <th>التكلفة</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>تطوير نظام CRO المتكامل للأدوار الأربعة</strong></td>
+                  <td>يشمل الميزات الحالية والتعديلات المطلوبة <u>حتى ضمان أن المميزات تعمل وتؤدي وظائفها بشكل سليم وصحيح 100%</u>.</td>
+                  <td>3,500 ر.س</td>
+                </tr>
+                <tr>
+                  <td><strong>اسم نطاق الويب (Domain Name)</strong></td>
+                  <td>حجز مجاني مخصص باسم المعمل لمدة سنتين كاملتين.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+                <tr>
+                  <td><strong>الصفحة التعريفية Landing Page</strong></td>
+                  <td>تصميم صفحة تسويق للمعمل وهوية CRO لاستقطاب الكافيهات.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+                <tr>
+                  <td><strong>الدعم الفني الشامل وإدارة السيرفر</strong></td>
+                  <td>متابعة استقرار النظام وحل أي مشاكل فنية لمدة سنتين مجاناً.</td>
+                  <td><span class="free-badge">مجاني</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pricing-summary">
+            <div class="price-card">
+              <span class="lbl">التكلفة الإجمالية المشمولة</span>
+              <div class="val">3,500 <span style="font-size: 15px;">ر.س</span></div>
+              <div class="dur">⏱️ مدة التطوير: أسبوع عمل واحد (7 أيام)</div>
+            </div>
+            <div class="g-box">
+              <div class="title-g">💼 آلية الدفع والالتزام بالمشروع</div>
+              <p class="desc-g">
+                التزام مطلق برضاكم التام عن النظام، وبناء التدفقات الفنية والتشغيلية المذكورة بأعلى مستويات الجودة والأداء الفني.<br><br>
+                - <strong>توزيع الدفعات:</strong> يتم تحويل <span style="color: var(--brand-purple-dark); font-weight: 800;">50% عند التعميد</span>، والمتبقي <span style="color: var(--brand-purple-dark); font-weight: 800;">50% عند تسليم العمل بشكل كامل ومطابق</span>.<br><br>
+                - <strong>الميزات المستقبلية:</strong> أي ميزات إضافية مستقبلية تطلب خارج نطاق هذه الاتفاقية يتم جدولتها وتسعيرها بشكل منفصل وسعر مستقل.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشريحة 9: الخاتمة -->
+    <div class="slide" id="slide-9">
+      <div class="slide-cover">
+        <div class="logo-container">
+          <!-- وضع ملف الشعار الفعلي والجاهز مباشرة لصفحة الخاتمة -->
+          <img src="شعارات-03.png" alt="الشعار">
+        </div>
+        <h1 style="font-size: 64px;">شكراً لثقتكم بنا</h1>
+        <div class="subtitle" style="font-size: 22px; color: var(--brand-beige);">نحن هنا لنصنع من الخيال واقعاً ملموساً يغير من ملامح أعمالكم اليومية</div>
+        <div style="margin-top: 40px; font-size: 14px; opacity: 0.7; font-family: 'IBM Plex Mono', monospace;">© 2026</div>
+      </div>
+    </div>
+
+    <!-- ===== الشريط السفلي للملاحة والتنقل ===== -->
+    <div class="slide-footer">
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="navigateSlide(-1)">
+          السابق <i class="fa-solid fa-chevron-left" style="font-size: 12px;"></i>
+        </button>
+      </div>
+
+      <div class="dots-container" id="dots-container">
+        <!-- سيتم توليد نقاط التنقل آلياً عبر جافاسكريبت -->
+      </div>
+
+      <div class="nav-buttons">
+        <button class="nav-btn" id="next-btn" onclick="navigateSlide(1)">
+          التالي <i class="fa-solid fa-chevron-right" style="font-size: 12px;"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- جافاسكريبت الملاحة الحية والسريعة -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 9;
+
+    // تهيئة النقاط آلياً بالأسفل
+    const dotsContainer = document.getElementById('dots-container');
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = `dot ${i === 1 ? 'active' : ''}`;
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateNavState() {
+      // إخفاء الشريط العلوي والتحكم بالسفلي في شريحة الغلاف والشريحة الأخيرة
+      const commonHeader = document.getElementById('common-header');
+      if (currentSlide === 1 || currentSlide === 9) {
+        commonHeader.style.display = 'none';
+      } else {
+        commonHeader.style.display = 'flex';
+        document.getElementById('slide-indicator').innerText = `الشريحة ${currentSlide} من ${totalSlides}`;
+      }
+
+      // تمكين/تعطيل الأزرار
+      document.getElementById('prev-btn').disabled = currentSlide === 1;
+      document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+
+      // تحديث فئات النشاط للشرائح
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        }
+      }
+
+      // تحديث نقاط الملاحة بالأسفل
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        if (index + 1 === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function navigateSlide(direction) {
+      const target = currentSlide + direction;
+      if (target >= 1 && target <= totalSlides) {
+        currentSlide = target;
+        updateNavState();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updateNavState();
+      }
+    }
+
+    // دعم التنقل عبر الأسهم في لوحة المفاتيح
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        navigateSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        navigateSlide(-1);
+      }
+    });
+
+    // تشغيل التهيئة الأولية للملاحة
+    updateNavState();
+  </script>
+</body>
+</html>
