@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مشروع التحول التقني لـ CRO — عرض تقديمي متكامل</title>
   
-  <!-- الخطوط الرسمية والهوية البصرية -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -237,10 +236,6 @@
       font-family: 'IBM Plex Mono', monospace;
     }
 
-    /* ========================================================= */
-    /* =================== تصاميم الشرائح الخاصة ================ */
-    /* ========================================================= */
-
     /* 1. الشريحة الأولى: الغلاف */
     .slide-cover {
       background: radial-gradient(circle at 70% 30%, rgba(220, 191, 161, 0.2) 0%, rgba(59, 39, 57, 0.03) 100%), var(--brand-purple-dark);
@@ -378,7 +373,6 @@
 
     .lane-grid > div:nth-last-child(-n+2) { border-bottom: none; }
 
-    /* Lane classes with low opacity */
     .lane-row.branch { background: rgba(110, 138, 104, 0.03); }
     .lane-row.factory { background: rgba(220, 191, 161, 0.03); }
     .lane-row.courier { background: rgba(182, 84, 63, 0.03); }
@@ -757,29 +751,20 @@
 </head>
 <body>
 
-  <!-- ===== الحاوية الرئيسية للعرض التقديمي ===== -->
   <div class="deck-container">
     
-    <!-- الشريط العلوي المستمر لجميع الشرائح عدا الغلاف والختام -->
     <div class="slide-header" id="common-header" style="display: none;">
       <div class="brand-logo">
-        <!-- وضع ملف الشعار الفعلي والجاهز مباشرة دون تعديل برمجياً -->
-        <img src="شعارات-03.png" alt="الشعار">
+        <img src="logo.png" alt="الشعار">
         <span class="brand-name">CRO System</span>
       </div>
       <div class="slide-indicator" id="slide-indicator">الشريحة 1 من 9</div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- ======================== الشرائح ======================== -->
-    <!-- ========================================================= -->
-
-    <!-- الشريحة 1: الغلاف -->
     <div class="slide active" id="slide-1">
       <div class="slide-cover">
         <div class="logo-container">
-          <!-- وضع ملف الشعار الفعلي المرفق بشكل مباشر للغلاف -->
-          <img src="شعارات-03.png" alt="الشعار">
+          <img src="logo.png" alt="الشعار">
         </div>
         <h1>مشروع التحول التقني لـ CRO</h1>
         <div class="subtitle">رؤية حوكمة الإنتاج والتوصيل الذكي وتأسيس البنية التقنية للمعامل</div>
@@ -787,7 +772,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 2: مقدمة ورؤية التحول التقني -->
     <div class="slide" id="slide-2">
       <div class="slide-body">
         <div class="slide-title-area">
@@ -815,7 +799,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 3: مخطط تدفق الطلب التفاعلي (Diagram 1) -->
     <div class="slide" id="slide-3">
       <div class="slide-body" style="padding-top: 25px;">
         <div class="slide-title-area" style="margin-bottom: 15px;">
@@ -824,14 +807,12 @@
         </div>
         
         <div class="lane-grid">
-          <!-- Lane 1 -->
           <div class="lane-label"><div><b>الفرع</b>الكافي</div></div>
           <div class="lane-row branch">
             <div class="node"><span class="tag">خطوة 1</span>تسجيل الدخول وبناء طلب جديد من الأصناف المتاحة</div>
             <div class="arrow">←</div>
             <div class="node"><span class="tag">خطوة 2</span>إرسال الطلب وحجز رقم تسلسلي فريد تلقائي</div>
           </div>
-          <!-- Lane 2 -->
           <div class="lane-label"><div><b>المعمل</b>الشيف</div></div>
           <div class="lane-row factory">
             <div class="node"><span class="tag">خطوة 3</span>استلام الطلب بكامل تفاصيل الفرع وموقعه الجغرافي</div>
@@ -847,14 +828,12 @@
             <div class="arrow">←</div>
             <div class="node"><span class="tag">خطوة 5</span>قيد التجهيز ← جاهز للتوصيل</div>
           </div>
-          <!-- Lane 3 -->
           <div class="lane-label"><div><b>المندوب</b>التوصيل</div></div>
           <div class="lane-row courier">
             <div class="node"><span class="tag">خطوة 6</span>استلام الكميات وتحديث الحالة "جاري التوصيل"</div>
             <div class="arrow">←</div>
             <div class="node alert"><span class="tag">ميزة الأمان</span>تنكشف تفاصيل الفرع وموقع الخرائط بعد الاستلام الفعلي</div>
           </div>
-          <!-- Lane 4 -->
           <div class="lane-label"><div><b>الفرع</b>الاستلام</div></div>
           <div class="lane-row branch">
             <div class="node"><span class="tag">خطوة 7</span>مطابقة الأصناف والكميات عند وصول المندوب</div>
@@ -868,7 +847,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 4: الأدوار والصلاحيات (Diagram 2) -->
     <div class="slide" id="slide-4">
       <div class="slide-body">
         <div class="slide-title-area">
@@ -876,7 +854,6 @@
           <p class="desc">أربعة مستويات من الأذونات تضمن كفاءة وحماية العمليات والبيانات المالية الحساسة.</p>
         </div>
         <div class="roles-grid">
-          <!-- Admin -->
           <div class="role-card admin">
             <div class="role-head">
               <span class="role-no">User Type 01</span>
@@ -890,7 +867,6 @@
             </ul>
             <div class="role-footer">رقابة شاملة بدون عمل تشغيلي</div>
           </div>
-          <!-- Factory -->
           <div class="role-card factory">
             <div class="role-head">
               <span class="role-no">User Type 02</span>
@@ -904,7 +880,6 @@
             </ul>
             <div class="role-footer">إدارة المخزون والتوريد المباشر</div>
           </div>
-          <!-- Courier -->
           <div class="role-card courier">
             <div class="role-head">
               <span class="role-no">User Type 03</span>
@@ -918,7 +893,6 @@
             </ul>
             <div class="role-footer">المرونة واللوجستيات في الميدان</div>
           </div>
-          <!-- Branch -->
           <div class="role-card branch">
             <div class="role-head">
               <span class="role-no">User Type 04</span>
@@ -936,7 +910,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 5: ربط الفروع بالمعامل والتوسع (Diagram 3) -->
     <div class="slide" id="slide-5">
       <div class="slide-body">
         <div class="slide-title-area">
@@ -968,7 +941,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 6: دورة حياة حالة الطلب التفصيلية (Diagram 4) -->
     <div class="slide" id="slide-6">
       <div class="slide-body" style="padding-top: 30px;">
         <div class="slide-title-area" style="margin-bottom: 20px;">
@@ -977,19 +949,16 @@
         </div>
 
         <div class="status-track">
-          <!-- Step 1 -->
           <div class="status-step">
             <div class="status-node"><span class="snum">01</span>جديد</div>
             <div class="status-owner">الفرع</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 2 -->
           <div class="status-step">
             <div class="status-node"><span class="snum">02</span>قيد المراجعة</div>
             <div class="status-owner">الشيف</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 3 (Fork) -->
           <div class="status-step">
             <div class="status-fork">
               <div class="fork-node ok"><span class="snum">03A</span>مقبول كلياً</div>
@@ -998,31 +967,26 @@
             <div class="status-owner">الشيف</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 4 -->
           <div class="status-step">
             <div class="status-node"><span class="snum">04</span>قيد التجهيز</div>
             <div class="status-owner">الشيف</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 5 -->
           <div class="status-step">
             <div class="status-node"><span class="snum">05</span>جاهز للتوصيل</div>
             <div class="status-owner">الشيف</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 6 -->
           <div class="status-step">
             <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">06</span>استلام المندوب</div>
             <div class="status-owner">المندوب</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 7 -->
           <div class="status-step">
             <div class="status-node" style="border-color: var(--brand-beige);"><span class="snum">07</span>جاري التوصيل</div>
             <div class="status-owner">المندوب</div>
           </div>
           <div class="status-conn"></div>
-          <!-- Step 8 (Fork 2) -->
           <div class="status-step">
             <div class="status-fork">
               <div class="fork-node ok"><span class="snum">08A</span>تم التسليم</div>
@@ -1031,7 +995,6 @@
             <div class="status-owner">الفرع</div>
           </div>
           <div class="status-conn dashed"></div>
-          <!-- Step 9 -->
           <div class="status-step">
             <div class="status-node" style="background: rgba(112, 83, 112, 0.15); border-color: var(--brand-purple-light);"><span class="snum">09</span>مغلق ومحفوظ</div>
             <div class="status-owner">آلي / الإدارة</div>
@@ -1040,7 +1003,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 7: حل مشكلة التنبيهات المبتكر -->
     <div class="slide" id="slide-7">
       <div class="slide-body">
         <div class="slide-title-area">
@@ -1064,7 +1026,6 @@
       </div>
     </div>
 
-    <!-- الشريحة 8: العرض المالي والجدول الزمني -->
     <div class="slide" id="slide-8">
       <div class="slide-body">
         <div class="slide-title-area">
@@ -1126,12 +1087,10 @@
       </div>
     </div>
 
-    <!-- الشريحة 9: الخاتمة -->
     <div class="slide" id="slide-9">
       <div class="slide-cover">
         <div class="logo-container">
-          <!-- وضع ملف الشعار الفعلي والجاهز مباشرة لصفحة الخاتمة -->
-          <img src="شعارات-03.png" alt="الشعار">
+          <img src="logo.png" alt="الشعار">
         </div>
         <h1 style="font-size: 64px;">شكراً لثقتكم بنا</h1>
         <div class="subtitle" style="font-size: 22px; color: var(--brand-beige);">نحن هنا لنصنع من الخيال واقعاً ملموساً يغير من ملامح أعمالكم اليومية</div>
@@ -1139,7 +1098,6 @@
       </div>
     </div>
 
-    <!-- ===== الشريط السفلي للملاحة والتنقل ===== -->
     <div class="slide-footer">
       <div class="nav-buttons">
         <button class="nav-btn" id="prev-btn" onclick="navigateSlide(-1)">
@@ -1148,8 +1106,7 @@
       </div>
 
       <div class="dots-container" id="dots-container">
-        <!-- سيتم توليد نقاط التنقل آلياً عبر جافاسكريبت -->
-      </div>
+        </div>
 
       <div class="nav-buttons">
         <button class="nav-btn" id="next-btn" onclick="navigateSlide(1)">
@@ -1160,12 +1117,10 @@
 
   </div>
 
-  <!-- جافاسكريبت الملاحة الحية والسريعة -->
   <script>
     let currentSlide = 1;
     const totalSlides = 9;
 
-    // تهيئة النقاط آلياً بالأسفل
     const dotsContainer = document.getElementById('dots-container');
     for (let i = 1; i <= totalSlides; i++) {
       const dot = document.createElement('div');
@@ -1175,7 +1130,6 @@
     }
 
     function updateNavState() {
-      // إخفاء الشريط العلوي والتحكم بالسفلي في شريحة الغلاف والشريحة الأخيرة
       const commonHeader = document.getElementById('common-header');
       if (currentSlide === 1 || currentSlide === 9) {
         commonHeader.style.display = 'none';
@@ -1184,11 +1138,9 @@
         document.getElementById('slide-indicator').innerText = `الشريحة ${currentSlide} من ${totalSlides}`;
       }
 
-      // تمكين/تعطيل الأزرار
       document.getElementById('prev-btn').disabled = currentSlide === 1;
       document.getElementById('next-btn').disabled = currentSlide === totalSlides;
 
-      // تحديث فئات النشاط للشرائح
       for (let i = 1; i <= totalSlides; i++) {
         const slide = document.getElementById(`slide-${i}`);
         if (slide) {
@@ -1200,7 +1152,6 @@
         }
       }
 
-      // تحديث نقاط الملاحة بالأسفل
       const dots = document.querySelectorAll('.dot');
       dots.forEach((dot, index) => {
         if (index + 1 === currentSlide) {
@@ -1226,7 +1177,6 @@
       }
     }
 
-    // دعم التنقل عبر الأسهم في لوحة المفاتيح
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
         navigateSlide(1);
@@ -1235,7 +1185,6 @@
       }
     });
 
-    // تشغيل التهيئة الأولية للملاحة
     updateNavState();
   </script>
 </body>
